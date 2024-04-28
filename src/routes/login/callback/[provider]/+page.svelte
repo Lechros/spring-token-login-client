@@ -8,11 +8,15 @@
   onMount(() => {
     getToken($page.params.provider, $page.url.search)
       .then((res) => {
-        $token = res.data!;
-        const now = new Date().getTime() / 1000;
-        $accessTokenExpiresAt = now + $token.expires_in;
+        if (res.data) {
+          $token = res.data;
+          const now = new Date().getTime() / 1000;
+          $accessTokenExpiresAt = now + $token.expires_in;
+        } else {
+          alert("ERROR: " + res.status);
+        }
       })
-      .then(() => goto("/"));
+      .finally(() => goto("/"));
   });
 </script>
 

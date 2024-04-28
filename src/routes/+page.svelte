@@ -5,10 +5,10 @@
   import { API_URL, AUTHORIZATION_BASE_URL, REFRESH_URL } from "../env";
   import { accessTokenExpiresAt, token } from "./store";
 
-  let apiStatus = -1;
+  let apiStatus = 0;
   let apiResult = "";
 
-  let refreshStatus = -1;
+  let refreshStatus = 0;
 
   function onApiClick() {
     api($token.access_token).then((res) => {
@@ -20,9 +20,11 @@
   function onRefreshClick() {
     refresh($token.refresh_token).then((res) => {
       refreshStatus = res.status;
-      $token = res.data!;
-      const now = new Date().getTime() / 1000;
-      $accessTokenExpiresAt = now + $token.expires_in;
+      if (res.data) {
+        $token = res.data;
+        const now = new Date().getTime() / 1000;
+        $accessTokenExpiresAt = now + $token.expires_in;
+      }
     });
   }
 

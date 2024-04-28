@@ -17,8 +17,8 @@ function success<T>(status: number, data: T): Result<T> {
   return { status, data };
 }
 
-function fail(): Result<any> {
-  return { status: -1, data: null };
+function fail(status: number): Result<any> {
+  return { status, data: null };
 }
 
 export async function api(accessToken: string, tokenType = "Bearer"): Promise<Result<string>> {
@@ -30,7 +30,7 @@ export async function api(accessToken: string, tokenType = "Bearer"): Promise<Re
   if (res.ok) {
     return success(res.status, await res.text());
   }
-  return fail();
+  return fail(res.status);
 }
 
 export async function refresh(refreshToken: string): Promise<Result<Token>> {
@@ -44,7 +44,7 @@ export async function refresh(refreshToken: string): Promise<Result<Token>> {
   if (res.ok) {
     return success(res.status, await res.json());
   }
-  return fail();
+  return fail(res.status);
 }
 
 export async function getToken(provider: string, search: string): Promise<Result<Token>> {
@@ -52,5 +52,5 @@ export async function getToken(provider: string, search: string): Promise<Result
   if (res.ok) {
     return success(res.status, await res.json());
   }
-  return fail();
+  return fail(res.status);
 }
