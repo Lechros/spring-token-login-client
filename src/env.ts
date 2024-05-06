@@ -8,3 +8,5 @@ export const AUTHORIZATION_BASE_URL = `${SERVER_URL}/oauth2/authorization`;
 export const CODE_BASE_URL = `${SERVER_URL}/login/oauth2/code`;
 
 export const REFRESH_URL = `${SERVER_URL}/oauth2/token`;
+
+export const DEV_REDIRECT_URI = `http://localhost:5173/login/callback/custom`;

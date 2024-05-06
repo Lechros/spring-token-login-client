@@ -9,4 +9,6 @@ export const token = writable<Token>({
   refresh_token_expires_in: 0,
 });
 
+export const redirectUri = writable<string>("");
+
 export const accessTokenExpiresAt = writable<number>(0);

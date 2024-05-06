@@ -2,8 +2,8 @@
   import naverLogin from "$lib/btnG_완성형.png";
   import { onMount } from "svelte";
   import { api, refresh } from "../api";
-  import { API_URL, AUTHORIZATION_BASE_URL, REFRESH_URL } from "../env";
-  import { accessTokenExpiresAt, token } from "./store";
+  import { API_URL, AUTHORIZATION_BASE_URL, REFRESH_URL, DEV_REDIRECT_URI } from "../env";
+  import { accessTokenExpiresAt, redirectUri, token } from "./store";
 
   let apiStatus = 0;
   let apiResult = "";
@@ -53,6 +53,7 @@
   <a href={AUTHORIZATION_BASE_URL + "/naver"}>
     <img class="login" src={naverLogin} alt="네이버 로그인" />
   </a>
+  <a href={AUTHORIZATION_BASE_URL + "/dev" + "?redirect_uri=" + DEV_REDIRECT_URI}>개발자 로그인</a>
 </div>
 
 <hr />
@@ -82,7 +83,12 @@
     <span>{value}</span>
   </div>
 {/each}
-액세스 토큰 만료까지: {Math.floor(accessTokenExpiresIn * 10) / 10}초
+<div>
+  액세스 토큰 만료까지: {Math.floor(accessTokenExpiresIn * 10) / 10}초
+</div>
+<div>
+  토큰 처리 URI: {$redirectUri}
+</div>
 
 <style>
   .login {

@@ -3,9 +3,10 @@
   import { page } from "$app/stores";
   import { onMount } from "svelte";
   import { getToken } from "../../../../api";
-  import { accessTokenExpiresAt, token } from "../../../store";
+  import { accessTokenExpiresAt, redirectUri, token } from "../../../store";
 
   onMount(() => {
+    $redirectUri = $page.url.origin + $page.url.pathname;
     getToken($page.params.provider, $page.url.search)
       .then((res) => {
         if (res.data) {
