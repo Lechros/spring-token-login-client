@@ -21,6 +21,12 @@ function fail(status: number): Result<any> {
   return { status, data: null };
 }
 
+async function logError(res: Response) {
+  if (!res.ok) {
+    console.log(await res.text());
+  }
+}
+
 export async function api(accessToken: string, tokenType = "Bearer"): Promise<Result<string>> {
   const res = await fetch(API_URL, {
     headers: {
@@ -30,6 +36,7 @@ export async function api(accessToken: string, tokenType = "Bearer"): Promise<Re
   if (res.ok) {
     return success(res.status, await res.text());
   }
+  logError(res);
   return fail(res.status);
 }
 
@@ -44,6 +51,7 @@ export async function refresh(refreshToken: string): Promise<Result<Token>> {
   if (res.ok) {
     return success(res.status, await res.json());
   }
+  logError(res);
   return fail(res.status);
 }
 
@@ -52,5 +60,6 @@ export async function getToken(provider: string, search: string): Promise<Result
   if (res.ok) {
     return success(res.status, await res.json());
   }
+  logError(res);
   return fail(res.status);
 }
